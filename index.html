@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎉 Happy Birthday Kittu! 🎂</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", cursive;
+      background: linear-gradient(120deg, #ff4b4b, #ffb199);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #quiz, #main {
+      display: none;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-top: 80px;
+      text-shadow: 2px 2px #aa0000;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .msg {
+      font-size: 1.3rem;
+      margin: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 15px;
+      display: inline-block;
+    }
+
+    button {
+      background: #fff;
+      color: #e60000;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e60000;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .cake {
+      position: relative;
+      width: 200px;
+      height: 150px;
+      margin: 40px auto;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .cake .base {
+      width: 200px;
+      height: 80px;
+      background: #ff9999;
+      border-radius: 0 0 20px 20px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .cake .frosting {
+      width: 200px;
+      height: 50px;
+      background: #ffcccc;
+      border-radius: 20px 20px 0 0;
+      position: absolute;
+      bottom: 80px;
+    }
+
+    .candle {
+      width: 10px;
+      height: 40px;
+      background: #fff;
+      position: absolute;
+      top: 10px;
+      left: 95px;
+      border-radius: 5px;
+    }
+
+    .flame {
+      width: 10px;
+      height: 10px;
+      background: gold;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      left: 0;
+      animation: flicker 0.3s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <!-- Quiz Section -->
+  <div id="quiz">
+    <h1>🎂 Birthday Quiz for Kittu! 🎉</h1>
+    <p class="msg">Answer both questions to unlock your surprise 👀</p>
+
+    <div>
+      <p>1️⃣ How many years older are you than Anshu?</p>
+      <input type="text" id="q1" placeholder="Enter number" />
+    </div>
+
+    <div>
+      <p>2️⃣ When is Anshu's birthday?</p>
+      <input type="text" id="q2" placeholder="e.g. 8th April" />
+    </div>
+
+    <br />
+    <button onclick="checkAnswers()">Submit Answers ✅</button>
+    <p id="feedback" style="margin-top:10px;font-weight:bold;"></p>
+  </div>
+
+  <!-- Main Birthday Page -->
+  <div id="main">
+    <h1>🎉 Happy 20th Birthday, Kittu! 🌸</h1>
+    <p class="msg">You passed the quiz — smart and funny as always! 😄</p>
+    <p class="msg">May your life be as red as roses 🌹 and as bright as sunshine 🌞</p>
+
+    <div class="cake">
+      <div class="frosting"></div>
+      <div class="base"></div>
+      <div class="candle">
+        <div class="flame"></div>
+      </div>
+    </div>
+
+    <button onclick="playMusic()">Play Birthday Song 🎶</button>
+
+    <audio id="song" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_35dbbdf8a8.mp3?filename=happy-birthday-125191.mp3"></audio>
+  </div>
+
+  <script>
+    // Show quiz first
+    document.getElementById('quiz').style.display = 'block';
+
+    function checkAnswers() {
+      const q1 = document.getElementById('q1').value.trim();
+      const q2 = document.getElementById('q2').value.trim().toLowerCase();
+      const feedback = document.getElementById('feedback');
+
+      if (q1 === "2" && (q2 === "8th april" || q2 === "8 april" || q2 === "8 april.")) {
+        feedback.textContent = "✅ Correct! Unlocking your surprise...";
+        setTimeout(() => {
+          document.getElementById('quiz').style.display = 'none';
+          document.getElementById('main').style.display = 'block';
+        }, 1000);
+      } else {
+        feedback.textContent = "❌ Oops! Try again 😜";
+      }
+    }
+
+    function playMusic() {
+      document.getElementById('song').play();
+      alert("🎶 Happy Birthday Kittu! Enjoy your cake and your day!");
+    }
+
+    // Falling confetti (red nature theme)
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = Array.from({ length: 120 }).map(() => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 2,
+      color: ["#ff0000", "#ff6666", "#ff9999", "#ffffff"][Math.floor(Math.random()*4)],
+      d: Math.random() * 10
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach((p) => {
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      update();
+    }
+
+    function update() {
+      confetti.forEach((p) => {
+        p.y += Math.cos(p.d) + 1;
+        p.x += Math.sin(p.d) * 0.5;
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * ca*
